@@ -8,25 +8,26 @@ import { createPicker } from './utils';
 
 import colors from './colors.js';
 
-let selectedColor = colors['light'][0];
+let backgroundColor = colors['light'][0];
 
 const swatches = Object.values(colors).flat();
 
 const pickrRowBkgColor = createPicker(
   '.my-color-picker',
   swatches,
-  selectedColor
+  backgroundColor
 );
 
 pickrRowBkgColor.on('save', (color, instance) => {
   const updatedColor = color.toHEXA().toString();
-  selectedColor = updatedColor;
-  console.log(selectedColor);
+  backgroundColor = updatedColor;
+  console.log(backgroundColor);
   refreshGrid();
   instance.hide();
 });
 
 function refreshGrid() {
+  
   gridOptions.api.redrawRows();
 }
 
@@ -35,10 +36,10 @@ const gridOptions = {
   getRowStyle: params => {
     const themes = Object.keys(colors);
     const selectedTheme = themes.find(theme =>
-      colors[theme].includes(selectedColor)
+      colors[theme].includes(backgroundColor)
     );
     return {
-      backgroundColor: selectedColor,
+      backgroundColor,
       color: selectedTheme === 'dark' ? 'white' : 'black'
     };
   },
